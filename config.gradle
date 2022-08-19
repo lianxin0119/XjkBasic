@@ -4,8 +4,6 @@ ext {
             compileSdkVersion      : 31,
             minSdkVersion          : 23,
             targetSdkVersion       : 31,
-            versionCode            : 1,
-            versionName            : "1.0",
             javaSourceCompatibility: JavaVersion.VERSION_1_8,
             javaTargetCompatibility: JavaVersion.VERSION_1_8
     ]
