@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  titleBar的高度  -->
+    <dimen name="base_title_bar_height">48dp</dimen>
+
+    <!--  默认的界面到屏幕的左右间距  -->
+    <dimen name="base_default_horizontal">16dp</dimen>
+
+</resources>
