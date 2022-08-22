@@ -15,7 +15,6 @@ fun FragmentActivity.requestPermissions(
     onGranted: (() -> Unit)? = null,
     onDenied: (() -> Unit)? = null
 ) {
-    // FIXME : 需要完善
     RxPermissions(this)
         .request(*permissions)
         .subscribe {
