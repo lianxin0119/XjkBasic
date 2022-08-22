@@ -77,6 +77,7 @@ dependencies {
 
     api rootProject.ext.dependencies.lifecycleViewModel
     api rootProject.ext.dependencies.lifecycleLiveData
+    api rootProject.ext.dependencies.lifecycleProcess
     kapt rootProject.ext.dependencies.lifecycleCompiler
 
     api rootProject.ext.dependencies.utilCode

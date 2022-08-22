@@ -63,6 +63,7 @@ ext {
             roomCompiler         : "androidx.room:room-compiler:$rootProject.roomVersion",
             lifecycleViewModel   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion",
             lifecycleLiveData    : "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion",
+            lifecycleProcess     : "androidx.lifecycle:lifecycle-process:$rootProject.lifecycleVersion",
             lifecycleCompiler    : "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion",
 
             utilCode             : "com.blankj:utilcodex:$rootProject.utilCodeVersion"
