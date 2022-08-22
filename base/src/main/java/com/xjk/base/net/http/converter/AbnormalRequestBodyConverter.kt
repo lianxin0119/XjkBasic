@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.Buffer
 import retrofit2.Converter
 import java.io.OutputStreamWriter
@@ -27,6 +28,6 @@ class AbnormalRequestBodyConverter<T>(
         val jsonWriter = gson.newJsonWriter(writer)
         adapter.write(jsonWriter, value)
         jsonWriter.close()
-        return RequestBody.create(mediaType, buffer.readByteString())
+        return buffer.readByteString().toRequestBody(mediaType)
     }
 }

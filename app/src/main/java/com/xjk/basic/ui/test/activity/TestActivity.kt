@@ -1,6 +1,6 @@
 package com.xjk.basic.ui.test.activity
 
-import com.xjk.base.ui.activity.BaseTitleActivity
+import com.xjk.base.ui.activity.BaseActivity
 import com.xjk.basic.R
 import com.xjk.basic.databinding.ActivityTestBinding
 
@@ -9,7 +9,7 @@ import com.xjk.basic.databinding.ActivityTestBinding
  *
  * Create by LianXin on 2022/8/18 19:35
  */
-class TestActivity : BaseTitleActivity<ActivityTestBinding>() {
+class TestActivity : BaseActivity<ActivityTestBinding>() {
 
     override fun initViewBinding() = ActivityTestBinding.inflate(layoutInflater)
 

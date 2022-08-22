@@ -1,8 +1,13 @@
 package com.xjk.base.kodein
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializer
+import com.xjk.base.extand.TAG
+import com.xjk.base.extand.safe
+import com.xjk.base.net.http.converter.AbnormalConverterFactory
+import com.xjk.base.net.http.ssl.SslManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
@@ -11,8 +16,6 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import com.xjk.base.net.http.converter.AbnormalConverterFactory
-import com.xjk.base.net.http.ssl.SslManager
 
 const val KODEIN_MODULE_CLIENT_TAG = "kodein_module_client_tag"
 
@@ -51,8 +54,8 @@ object ClientModule {
 
         bind<OkHttpClient>() with singleton {
             val builder = instance<OkHttpClient.Builder>()
-                .connectTimeout(TIME_OUT, java.util.concurrent.TimeUnit.SECONDS)
-                .readTimeout(TIME_OUT, java.util.concurrent.TimeUnit.SECONDS)
+                .connectTimeout(TIME_OUT, java.util.concurrent.TimeUnit.MILLISECONDS)
+                .readTimeout(TIME_OUT, java.util.concurrent.TimeUnit.MILLISECONDS)
             val interceptors = instance<List<okhttp3.Interceptor>>()
             builder.apply {
                 interceptors.forEach {
@@ -60,14 +63,13 @@ object ClientModule {
                 }
                 if (httpDebug) {
                     // log拦截
-                    addInterceptor(
-                        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                    )
-                    // TODO : sslSocketFactory
-                    sslSocketFactory(
-                        SslManager.createSSLSocketFactory(),
-                        SslManager.createX509TrustManager()
-                    )
+                    addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    val sslFactory = SslManager.createSSLSocketFactory()
+                    val x509TrustManager = SslManager.createX509TrustManager()
+                    safe(sslFactory, x509TrustManager) { t1, t2 ->
+                        Log.d(TAG, "sslSocketFactory")
+                        sslSocketFactory(t1, t2)
+                    }
                     // 测试服忽略证书校验
                     hostnameVerifier { _, _ -> true }
                 }

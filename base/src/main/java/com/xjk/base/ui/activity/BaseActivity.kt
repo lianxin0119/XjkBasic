@@ -29,7 +29,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     /**
      * 初始化ViewBinding, 并将对象设置到界面的contentView中
      */
-    internal open fun inflateViewBinding() {
+    open fun inflateViewBinding() {
         binding = initViewBinding()
         setContentView(binding.root)
     }

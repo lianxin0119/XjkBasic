@@ -25,5 +25,4 @@ fun FragmentActivity.requestPermissions(
                 onDenied?.invoke()
             }
         }
-
 }

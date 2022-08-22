@@ -1,10 +1,14 @@
 package com.xjk.base.net.http.ssl
 
 import android.annotation.SuppressLint
+import com.xjk.base.app.BaseApplication
+import java.security.KeyStore
 import java.security.SecureRandom
+import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
 /**
@@ -14,28 +18,35 @@ import javax.net.ssl.X509TrustManager
  */
 object SslManager {
 
-    fun createSSLSocketFactory(): SSLSocketFactory {
-        // TODO("CreateSSLSocketFactory")
-        var ssfFactory: SSLSocketFactory? = null
+    fun createSSLSocketFactory(): SSLSocketFactory? {
         try {
-            val sc = SSLContext.getInstance("SSL")
-            sc.init(null, arrayOf(TrustAllCerts()), SecureRandom())
-            ssfFactory = sc.socketFactory
+            val cerFactory: CertificateFactory = CertificateFactory.getInstance("X.509")
+            val keyStore: KeyStore = KeyStore.getInstance(KeyStore.getDefaultType())
+            keyStore.load(null)
+            val cerAlias = 0.toString()
+            keyStore.setCertificateEntry(
+                cerAlias,
+                cerFactory.generateCertificate(BaseApplication.instance.assets.open("xjk.cer"))
+            )
+            val sslContext = SSLContext.getInstance("TLS")
+            val tm = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            tm.init(keyStore)
+            sslContext.init(null, tm.trustManagers, SecureRandom())
+            return sslContext.socketFactory
         } catch (e: Exception) {
             e.printStackTrace()
+            return null
         }
-        return ssfFactory!!
     }
 
     fun createX509TrustManager(): X509TrustManager {
-        // TODO("createX509TrustManager")
         return TrustAllCerts()
     }
 
     /**
      * X509证书信任管理器类
-     * Create by YangYang on 2018/6/16 14:43
      */
+    @SuppressLint("CustomX509TrustManager")
     private class TrustAllCerts : X509TrustManager {
         @SuppressLint("TrustAllX509TrustManager")
         override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {

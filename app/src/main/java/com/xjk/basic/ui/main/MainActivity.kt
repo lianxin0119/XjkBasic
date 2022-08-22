@@ -5,13 +5,13 @@ import com.blankj.utilcode.util.ToastUtils
 import com.xjk.base.app.BaseApplication
 import com.xjk.base.extand.click
 import com.xjk.base.integration.AppManager
-import com.xjk.base.ui.activity.BaseTitleActivity
+import com.xjk.base.ui.activity.BaseActivity
 import com.xjk.basic.databinding.ActivityMainBinding
-import org.kodein.di.generic.instance
 import com.xjk.basic.ui.test.activity.TestActivity
 import com.xjk.basic.ui.test.viewmodel.TestViewModel
+import org.kodein.di.generic.instance
 
-class MainActivity : BaseTitleActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
