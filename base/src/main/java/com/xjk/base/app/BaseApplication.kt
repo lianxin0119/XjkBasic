@@ -71,6 +71,8 @@ open class BaseApplication : Application(), KodeinAware {
         mActivityLifecycleCallbacksList.forEach {
             registerActivityLifecycleCallbacks(it)
         }
+        // MMKV初始化
+        MMKV.initialize(this)
     }
 
     /**
@@ -78,8 +80,6 @@ open class BaseApplication : Application(), KodeinAware {
      */
     @CallSuper
     open fun initThirdSdk() {
-        // MMKV初始化
-        MMKV.initialize(this)
         // BlackJ初始化
         Utils.init(this)
         CrashUtils.init()
