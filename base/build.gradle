@@ -80,6 +80,8 @@ dependencies {
     api rootProject.ext.dependencies.lifecycleProcess
     kapt rootProject.ext.dependencies.lifecycleCompiler
 
+    api rootProject.ext.dependencies.immersionBar
+    api rootProject.ext.dependencies.immersionBarKtx
     api rootProject.ext.dependencies.utilCode
 
 }

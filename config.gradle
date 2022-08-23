@@ -32,6 +32,7 @@ ext {
             roomVersion = "2.4.2", // Room
             lifecycleVersion = "2.5.1", // lifecycle
 
+            immersionBarVersion = "3.2.2", // ImmersionBar(https://github.com/gyf-dev/ImmersionBar)
             utilCodeVersion = "1.31.0" // AndroidUtilCode(https://github.com/Blankj/AndroidUtilCode)
     ]
 
@@ -66,6 +67,8 @@ ext {
             lifecycleProcess     : "androidx.lifecycle:lifecycle-process:$rootProject.lifecycleVersion",
             lifecycleCompiler    : "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion",
 
+            immersionBar         : "com.geyifeng.immersionbar:immersionbar:$rootProject.immersionBarVersion",
+            immersionBarKtx      : "com.geyifeng.immersionbar:immersionbar-ktx:$rootProject.immersionBarVersion",
             utilCode             : "com.blankj:utilcodex:$rootProject.utilCodeVersion"
     ]
 

@@ -1,9 +1,11 @@
 package com.xjk.base.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.gyf.immersionbar.ktx.immersionBar
 
 /**
  * description : Activity基类
@@ -46,7 +48,13 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     /**
      * 适配状态栏
      */
-    protected open fun initStatus() {}
+    protected open fun initStatus() {
+        immersionBar {
+            transparentStatusBar()
+            statusBarDarkFont(true)
+            navigationBarColor(android.R.color.white)
+        }
+    }
 
     /**
      * 获取一个当前界面的ViewBinding实例
