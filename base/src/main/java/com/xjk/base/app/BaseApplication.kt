@@ -47,11 +47,12 @@ open class BaseApplication : Application(), KodeinAware {
     private val repositoryManager: IRepositoryManager by instance()
 
     /** 初始化全局kodein */
-    override val kodein: Kodein = Kodein {
+    override val kodein: Kodein = Kodein.lazy {
         bind<Context>() with singleton { this@BaseApplication }
         import(androidCoreModule(this@BaseApplication))
         configModules = getModuleConfig()
         configModules?.let {
+            injectConfigModule(it)
             import(getGlobeConfigModule(it).globeConfigModule)
         }
         import(appModule)
@@ -62,7 +63,6 @@ open class BaseApplication : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        injectConfigModule(configModules)
         mAppLifecycleList.forEach {
             it.onCreate(this)
         }
