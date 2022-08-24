@@ -52,7 +52,6 @@ open class BaseApplication : Application(), KodeinAware {
         import(androidCoreModule(this@BaseApplication))
         configModules = getModuleConfig()
         configModules?.let {
-            injectConfigModule(it)
             import(getGlobeConfigModule(it).globeConfigModule)
         }
         import(appModule)
@@ -63,10 +62,11 @@ open class BaseApplication : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        registerActivityLifecycleCallbacks(ActivityLifecycle(appManager))
+        injectConfigModule(configModules)
         mAppLifecycleList.forEach {
             it.onCreate(this)
         }
-        registerActivityLifecycleCallbacks(ActivityLifecycle(appManager))
         mActivityLifecycleCallbacksList.forEach {
             registerActivityLifecycleCallbacks(it)
         }
