@@ -57,9 +57,9 @@ abstract class BaseDialog<T : ViewBinding> : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setParams()
         binding = initViewBinding()
         initView()
+        setParams()
         return binding.root
     }
 
