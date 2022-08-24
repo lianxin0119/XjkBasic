@@ -7,23 +7,22 @@ import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.tencent.mmkv.MMKV
+import com.xjk.base.BuildConfig
+import com.xjk.base.integration.ActivityLifecycle
+import com.xjk.base.integration.AppManager
+import com.xjk.base.integration.ManifestParser
+import com.xjk.base.integration.config.AppLifecycle
+import com.xjk.base.integration.config.ConfigModule
+import com.xjk.base.integration.config.IRepositoryManager
+import com.xjk.base.kodein.ClientModule
+import com.xjk.base.kodein.GlobeConfigModule
+import com.xjk.base.kodein.appModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.androidCoreModule
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
-import com.xjk.base.BuildConfig
-import com.xjk.base.integration.ActivityLifecycle
-import com.xjk.base.integration.AppManager
-import com.xjk.base.kodein.GlobeConfigModule
-import com.xjk.base.integration.config.ConfigModule
-import com.xjk.base.integration.config.IRepositoryManager
-import com.xjk.base.integration.ManifestParser
-import com.xjk.base.integration.config.AppLifecycle
-import com.xjk.base.kodein.ClientModule
-import com.xjk.base.kodein.appModule
-import java.util.ArrayList
 
 /**
  * description : This person is too lazy to leave anything.
@@ -48,7 +47,7 @@ open class BaseApplication : Application(), KodeinAware {
     private val repositoryManager: IRepositoryManager by instance()
 
     /** 初始化全局kodein */
-    override val kodein: Kodein = Kodein.lazy {
+    override val kodein: Kodein = Kodein {
         bind<Context>() with singleton { this@BaseApplication }
         import(androidCoreModule(this@BaseApplication))
         configModules = getModuleConfig()
