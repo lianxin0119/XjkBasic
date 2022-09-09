@@ -3,10 +3,10 @@ package com.xjk.base.net.http.converter
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
+import com.xjk.base.BuildConfig
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Converter
-import com.xjk.base.BuildConfig
 
 /**
  * 返回值data为空或者data直接为常量的转换.
@@ -17,12 +17,12 @@ class AbnormalResponseBodyConverter<T> constructor(
     private val adapter: TypeAdapter<T>
 ) : Converter<ResponseBody, T> {
 
-    private val keyData = "data"
+    private val keyData = "result"
     private val keyCode = "code"
-    private val emptyDataListConverter = """{"data":[]}"""
-    private val emptyDataObjectConverter = """{"data":{}}"""
-    private val emptyDataListAdd = """{"data":[],"""
-    private val emptyDataObjectAdd = """{"data":{},"""
+    private val emptyDataListConverter = """{"code":10000,"result":[]}"""
+    private val emptyDataObjectConverter = """{"code":10000,"result":{}}"""
+    private val emptyDataListAdd = """{"code":10000,"result":[],"""
+    private val emptyDataObjectAdd = """{"code":10000,"result":{},"""
 
     override fun convert(value: ResponseBody): T {
         if (value.contentLength() > Int.MAX_VALUE) {
@@ -38,7 +38,7 @@ class AbnormalResponseBodyConverter<T> constructor(
         if (resStr.isNotEmpty()
             && resStr.startsWith("{")
             && resJsonOb.has(keyCode)
-            && resJsonOb.getInt(keyCode) == 200
+            && resJsonOb.getInt(keyCode) == 10000
             && !resJsonOb.has(keyData)
         ) {
             try {
