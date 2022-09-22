@@ -8,5 +8,5 @@ package com.xjk.base.net.api.exception
 open class ApiException @JvmOverloads constructor(
     val code: Int = 0,
     val msg: String? = null
-) : Exception()
+) : Exception(msg)
 
