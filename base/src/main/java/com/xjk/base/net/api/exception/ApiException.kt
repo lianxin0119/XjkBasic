@@ -5,5 +5,8 @@ package com.xjk.base.net.api.exception
  *
  * Create by LianXin on 2022/8/16 20:27
  */
-open class ApiException constructor(var code: Int = 0, var msg: String? = null) : Exception()
+open class ApiException @JvmOverloads constructor(
+    var code: Int = 0,
+    var msg: String? = null
+) : Exception(message = msg)
 
