@@ -35,6 +35,10 @@ class AbnormalResponseBodyConverter<T> constructor(
 
         var resStr = String(value.bytes())
         val resJsonOb = JSONObject(resStr)
+        // 强制把null转换成为空对象
+        if (resJsonOb.has(keyData) && resJsonOb.getString(keyData) == "null") {
+            resJsonOb.put(keyData, "{}")
+        }
         if (resStr.isNotEmpty()
             && resStr.startsWith("{")
             && resJsonOb.has(keyCode)
