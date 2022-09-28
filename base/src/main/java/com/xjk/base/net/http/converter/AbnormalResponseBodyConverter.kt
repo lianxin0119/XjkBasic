@@ -1,6 +1,7 @@
 package com.xjk.base.net.http.converter
 
 import android.util.Log
+import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
 import com.xjk.base.BuildConfig
@@ -37,8 +38,14 @@ class AbnormalResponseBodyConverter<T> constructor(
         val resJsonOb = JSONObject(resStr)
         // 强制把null转换成为空对象
         if (resJsonOb.has(keyData) && resJsonOb.getString(keyData) == "null") {
-            resJsonOb.put(keyData, "{}")
-            resStr = resJsonOb.toString()
+            val temp = NullToAnyTemp()
+            if (resJsonOb.has("code")) {
+                temp.code = resJsonOb.getInt("code")
+            }
+            if (resJsonOb.has("reason")) {
+                temp.reason = resJsonOb.getString("reason")
+            }
+            resStr = GsonUtils.toJson(temp)
         }
         if (resStr.isNotEmpty()
             && resStr.startsWith("{")
