@@ -38,6 +38,7 @@ class AbnormalResponseBodyConverter<T> constructor(
         // 强制把null转换成为空对象
         if (resJsonOb.has(keyData) && resJsonOb.getString(keyData) == "null") {
             resJsonOb.put(keyData, "{}")
+            resStr = resJsonOb.toString()
         }
         if (resStr.isNotEmpty()
             && resStr.startsWith("{")
