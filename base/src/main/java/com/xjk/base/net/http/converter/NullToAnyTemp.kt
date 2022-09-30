@@ -8,7 +8,13 @@ package com.xjk.base.net.http.converter
  * @author Lianxin
  */
 data class NullToAnyTemp(
-    var code: Int = 0,
-    var reason: String? = null,
+    val code: Int = 0,
+    val reason: String? = null,
     val result: Any = Any()
+)
+
+data class NullToListTemp(
+    val code: Int = 0,
+    val reason: String? = null,
+    val result: List<Any> = emptyList()
 )

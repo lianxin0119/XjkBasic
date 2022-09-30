@@ -19,11 +19,8 @@ class AbnormalResponseBodyConverter<T> constructor(
 ) : Converter<ResponseBody, T> {
 
     private val keyData = "result"
+    private val keyReason = "reason"
     private val keyCode = "code"
-    private val emptyDataListConverter = """{"code":10000,"result":[]}"""
-    private val emptyDataObjectConverter = """{"code":10000,"result":{}}"""
-    private val emptyDataListAdd = """{"code":10000,"result":[],"""
-    private val emptyDataObjectAdd = """{"code":10000,"result":{},"""
 
     override fun convert(value: ResponseBody): T {
         if (value.contentLength() > Int.MAX_VALUE) {
@@ -36,30 +33,25 @@ class AbnormalResponseBodyConverter<T> constructor(
 
         var resStr = String(value.bytes())
         val resJsonOb = JSONObject(resStr)
-        // 强制把null转换成为空对象
-        if (resJsonOb.has(keyData) && resJsonOb.getString(keyData) == "null") {
-            val temp = NullToAnyTemp()
-            if (resJsonOb.has("code")) {
-                temp.code = resJsonOb.getInt("code")
-            }
-            if (resJsonOb.has("reason")) {
-                temp.reason = resJsonOb.getString("reason")
-            }
-            resStr = GsonUtils.toJson(temp)
-        }
         if (resStr.isNotEmpty()
             && resStr.startsWith("{")
             && resJsonOb.has(keyCode)
-            && resJsonOb.getInt(keyCode) == 10000
-            && !resJsonOb.has(keyData)
+            && resJsonOb.has(keyReason)
+            && (!resJsonOb.has(keyData) || resJsonOb.getString(keyData) == "null")
         ) {
+            val code = resJsonOb.getInt(keyCode)
+            val reason = resJsonOb.getString(keyReason)
             try {
-                adapter.fromJson(emptyDataObjectConverter)
-                resStr = emptyDataObjectAdd + resStr.substring(1)
+                // 尝试转换成为any
+                val nullObjectJson = GsonUtils.toJson(NullToAnyTemp(code, reason))
+                adapter.fromJson(nullObjectJson)
+                resStr = nullObjectJson
             } catch (e: Exception) {
+                // 尝试转换成list
                 try {
-                    adapter.fromJson(emptyDataListConverter)
-                    resStr = emptyDataListAdd + resStr.substring(1)
+                    val nullListJson = GsonUtils.toJson(NullToListTemp(code, reason))
+                    adapter.fromJson(nullListJson)
+                    resStr = nullListJson
                 } catch (e: Exception) {
                     e.printStackTrace()
                     if (BuildConfig.DEBUG) {
